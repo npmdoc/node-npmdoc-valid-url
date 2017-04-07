@@ -1,0 +1,516 @@
+<div class="apidocDiv">
+<style>
+/*csslint
+*/
+.apidocDiv {
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+}
+.apidocDiv a[href] {
+    color: #33f;
+    font-weight: bold;
+    text-decoration: none;
+}
+.apidocDiv a[href]:hover {
+    text-decoration: underline;
+}
+.apidocCodeCommentSpan {
+    background: #bbf;
+    color: #000;
+    display: block;
+}
+.apidocCodeKeywordSpan {
+    color: #d00;
+    font-weight: bold;
+}
+.apidocCodePre {
+    background: #eef;
+    border: 1px solid;
+    color: #777;
+    padding: 5px;
+    white-space: pre-wrap;
+}
+.apidocFooterDiv {
+    margin-top: 20px;
+    text-align: center;
+}
+.apidocModuleLi {
+    margin-top: 10px;
+}
+.apidocSectionDiv {
+    border-top: 1px solid;
+    margin-top: 20px;
+}
+.apidocSignatureSpan {
+    color: #777;
+    font-weight: bold;
+}
+</style>
+<h1>api documentation for
+    <a
+
+        href="https://github.com/ogt/valid-url#readme"
+
+    >valid-url (v1.0.9)</a>
+</h1>
+<h4>URI validation functions</h4>
+<div class="apidocSectionDiv"><a
+    href="#apidoc.tableOfContents"
+    id="apidoc.tableOfContents"
+><h1>table of contents</h1></a><ol>
+
+    <li class="apidocModuleLi"><a href="#apidoc.module.valid-url">module valid-url</a><ol>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.isHttpUri">
+            function <span class="apidocSignatureSpan">valid-url.</span>isHttpUri
+            <span class="apidocSignatureSpan">(value, allowHttps)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.isHttpsUri">
+            function <span class="apidocSignatureSpan">valid-url.</span>isHttpsUri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.isUri">
+            function <span class="apidocSignatureSpan">valid-url.</span>isUri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.isWebUri">
+            function <span class="apidocSignatureSpan">valid-url.</span>isWebUri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.is_http_uri">
+            function <span class="apidocSignatureSpan">valid-url.</span>is_http_uri
+            <span class="apidocSignatureSpan">(value, allowHttps)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.is_https_uri">
+            function <span class="apidocSignatureSpan">valid-url.</span>is_https_uri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.is_uri">
+            function <span class="apidocSignatureSpan">valid-url.</span>is_uri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+        <li>
+
+            <a class="apidocElementLiA" href="#apidoc.element.valid-url.is_web_uri">
+            function <span class="apidocSignatureSpan">valid-url.</span>is_web_uri
+            <span class="apidocSignatureSpan">(value)</span>
+            </a>
+
+        </li>
+
+    </ol></li>
+
+</ol></div>
+
+<div class="apidocSectionDiv">
+<h1><a href="#apidoc.module.valid-url" id="apidoc.module.valid-url">module valid-url</a></h1>
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.isHttpUri" id="apidoc.element.valid-url.isHttpUri">
+        function <span class="apidocSignatureSpan">valid-url.</span>isHttpUri
+        <span class="apidocSignatureSpan">(value, allowHttps)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_http_iri(value, allowHttps) {
+    if (!is_iri(value)) {
+        return;
+    }
+
+    var splitted = [];
+    var scheme = &#x27;&#x27;;
+    var authority = &#x27;&#x27;;
+    var path = &#x27;&#x27;;
+    var port = &#x27;&#x27;;
+    var query = &#x27;&#x27;;
+    var fragment = &#x27;&#x27;;
+    var out = &#x27;&#x27;;
+
+    // from RFC 3986
+    splitted = splitUri(value);
+    scheme = splitted[1];
+    authority = splitted[2];
+    path = splitted[3];
+    query = splitted[4];
+    fragment = splitted[5];
+
+    if (!scheme)  return;
+
+    if(allowHttps) {
+        if (scheme.toLowerCase() != &#x27;https&#x27;) return;
+    } else {
+        if (scheme.toLowerCase() != &#x27;http&#x27;) return;
+    }
+
+    // fully-qualified URIs must have an authority section that is
+    // a valid host
+    if (!authority) {
+        return;
+    }
+
+    // enable port component
+    if (/:(\d+)$/.test(authority)) {
+        port = authority.match(/:(\d+)$/)[0];
+        authority = authority.replace(/:\d+$/, &#x27;&#x27;);
+    }
+
+    out += scheme + &#x27;:&#x27;;
+    out += &#x27;//&#x27; + authority;
+
+    if (port) {
+        out += port;
+    }
+
+    out += path;
+
+    if(query &#x26;&#x26; query.length){
+        out += &#x27;?&#x27; + query;
+    }
+
+    if(fragment &#x26;&#x26; fragment.length){
+        out += &#x27;#&#x27; + fragment;
+    }
+
+    return out;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.isHttpsUri" id="apidoc.element.valid-url.isHttpsUri">
+        function <span class="apidocSignatureSpan">valid-url.</span>isHttpsUri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_https_iri(value) {
+    return is_http_iri(value, true);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.isUri" id="apidoc.element.valid-url.isUri">
+        function <span class="apidocSignatureSpan">valid-url.</span>isUri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_iri(value) {
+    if (!value) {
+        return;
+    }
+
+    // check for illegal characters
+    if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&#x26;\&#x27;\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(value)) return;
+
+    // check for hex escapes that aren&#x27;t complete
+    if (/%[^0-9a-f]/i.test(value)) return;
+    if (/%[0-9a-f](:?[^0-9a-f]|$)/i.test(value)) return;
+
+    var splitted = [];
+    var scheme = &#x27;&#x27;;
+    var authority = &#x27;&#x27;;
+    var path = &#x27;&#x27;;
+    var query = &#x27;&#x27;;
+    var fragment = &#x27;&#x27;;
+    var out = &#x27;&#x27;;
+
+    // from RFC 3986
+    splitted = splitUri(value);
+    scheme = splitted[1];
+    authority = splitted[2];
+    path = splitted[3];
+    query = splitted[4];
+    fragment = splitted[5];
+
+    // scheme and path are required, though the path can be empty
+    if (!(scheme &#x26;&#x26; scheme.length &#x26;&#x26; path.length &#x3e;= 0)) return;
+
+    // if authority is present, the path must be empty or begin with a /
+    if (authority &#x26;&#x26; authority.length) {
+        if (!(path.length === 0 || /^\//.test(path))) return;
+    } else {
+        // if authority is not present, the path must not start with //
+        if (/^\/\//.test(path)) return;
+    }
+
+    // scheme must begin with a letter, then consist of letters, digits, +, ., or -
+    if (!/^[a-z][a-z0-9\+\-\.]*$/.test(scheme.toLowerCase()))  return;
+
+    // re-assemble the URL per section 5.3 in RFC 3986
+    out += scheme + &#x27;:&#x27;;
+    if (authority &#x26;&#x26; authority.length) {
+        out += &#x27;//&#x27; + authority;
+    }
+
+    out += path;
+
+    if (query &#x26;&#x26; query.length) {
+        out += &#x27;?&#x27; + query;
+    }
+
+    if (fragment &#x26;&#x26; fragment.length) {
+        out += &#x27;#&#x27; + fragment;
+    }
+
+    return out;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">...
+
+## Synopsis
+
+Common url validation methods
+```
+    var validUrl = require(&#x27;valid-url&#x27;);
+
+    if (validUrl.<span class="apidocCodeKeywordSpan">isUri</span>(suspect)){
+        console.log(&#x27;Looks like an URI&#x27;);
+    } else {
+        console.log(&#x27;Not a URI&#x27;);
+    }
+```
+
+Replicates the functionality of Richard Sonnen &#x3c;sonnen@richardsonnen.com&#x3e; perl module :
+...</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.isWebUri" id="apidoc.element.valid-url.isWebUri">
+        function <span class="apidocSignatureSpan">valid-url.</span>isWebUri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_web_iri(value) {
+    return (is_http_iri(value) || is_https_iri(value));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.is_http_uri" id="apidoc.element.valid-url.is_http_uri">
+        function <span class="apidocSignatureSpan">valid-url.</span>is_http_uri
+        <span class="apidocSignatureSpan">(value, allowHttps)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_http_iri(value, allowHttps) {
+    if (!is_iri(value)) {
+        return;
+    }
+
+    var splitted = [];
+    var scheme = &#x27;&#x27;;
+    var authority = &#x27;&#x27;;
+    var path = &#x27;&#x27;;
+    var port = &#x27;&#x27;;
+    var query = &#x27;&#x27;;
+    var fragment = &#x27;&#x27;;
+    var out = &#x27;&#x27;;
+
+    // from RFC 3986
+    splitted = splitUri(value);
+    scheme = splitted[1];
+    authority = splitted[2];
+    path = splitted[3];
+    query = splitted[4];
+    fragment = splitted[5];
+
+    if (!scheme)  return;
+
+    if(allowHttps) {
+        if (scheme.toLowerCase() != &#x27;https&#x27;) return;
+    } else {
+        if (scheme.toLowerCase() != &#x27;http&#x27;) return;
+    }
+
+    // fully-qualified URIs must have an authority section that is
+    // a valid host
+    if (!authority) {
+        return;
+    }
+
+    // enable port component
+    if (/:(\d+)$/.test(authority)) {
+        port = authority.match(/:(\d+)$/)[0];
+        authority = authority.replace(/:\d+$/, &#x27;&#x27;);
+    }
+
+    out += scheme + &#x27;:&#x27;;
+    out += &#x27;//&#x27; + authority;
+
+    if (port) {
+        out += port;
+    }
+
+    out += path;
+
+    if(query &#x26;&#x26; query.length){
+        out += &#x27;?&#x27; + query;
+    }
+
+    if(fragment &#x26;&#x26; fragment.length){
+        out += &#x27;#&#x27; + fragment;
+    }
+
+    return out;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.is_https_uri" id="apidoc.element.valid-url.is_https_uri">
+        function <span class="apidocSignatureSpan">valid-url.</span>is_https_uri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_https_iri(value) {
+    return is_http_iri(value, true);
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.is_uri" id="apidoc.element.valid-url.is_uri">
+        function <span class="apidocSignatureSpan">valid-url.</span>is_uri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_iri(value) {
+    if (!value) {
+        return;
+    }
+
+    // check for illegal characters
+    if (/[^a-z0-9\:\/\?\#\[\]\@\!\$\&#x26;\&#x27;\(\)\*\+\,\;\=\.\-\_\~\%]/i.test(value)) return;
+
+    // check for hex escapes that aren&#x27;t complete
+    if (/%[^0-9a-f]/i.test(value)) return;
+    if (/%[0-9a-f](:?[^0-9a-f]|$)/i.test(value)) return;
+
+    var splitted = [];
+    var scheme = &#x27;&#x27;;
+    var authority = &#x27;&#x27;;
+    var path = &#x27;&#x27;;
+    var query = &#x27;&#x27;;
+    var fragment = &#x27;&#x27;;
+    var out = &#x27;&#x27;;
+
+    // from RFC 3986
+    splitted = splitUri(value);
+    scheme = splitted[1];
+    authority = splitted[2];
+    path = splitted[3];
+    query = splitted[4];
+    fragment = splitted[5];
+
+    // scheme and path are required, though the path can be empty
+    if (!(scheme &#x26;&#x26; scheme.length &#x26;&#x26; path.length &#x3e;= 0)) return;
+
+    // if authority is present, the path must be empty or begin with a /
+    if (authority &#x26;&#x26; authority.length) {
+        if (!(path.length === 0 || /^\//.test(path))) return;
+    } else {
+        // if authority is not present, the path must not start with //
+        if (/^\/\//.test(path)) return;
+    }
+
+    // scheme must begin with a letter, then consist of letters, digits, +, ., or -
+    if (!/^[a-z][a-z0-9\+\-\.]*$/.test(scheme.toLowerCase()))  return;
+
+    // re-assemble the URL per section 5.3 in RFC 3986
+    out += scheme + &#x27;:&#x27;;
+    if (authority &#x26;&#x26; authority.length) {
+        out += &#x27;//&#x27; + authority;
+    }
+
+    out += path;
+
+    if (query &#x26;&#x26; query.length) {
+        out += &#x27;?&#x27; + query;
+    }
+
+    if (fragment &#x26;&#x26; fragment.length) {
+        out += &#x27;#&#x27; + fragment;
+    }
+
+    return out;
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+
+    <h2>
+        <a href="#apidoc.element.valid-url.is_web_uri" id="apidoc.element.valid-url.is_web_uri">
+        function <span class="apidocSignatureSpan">valid-url.</span>is_web_uri
+        <span class="apidocSignatureSpan">(value)</span>
+        </a>
+    </h2>
+    <ul>
+    <li>description and source-code<pre class="apidocCodePre">function is_web_iri(value) {
+    return (is_http_iri(value) || is_https_iri(value));
+}</pre></li>
+    <li>example usage<pre class="apidocCodePre">n/a</pre></li>
+    </ul>
+
+
+</div>
+
+<div class="apidocFooterDiv">
+    [ this document was created with
+    <a href="https://github.com/kaizhu256/node-utility2" target="_blank">utility2</a>
+    ]
+</div>
+</div>
