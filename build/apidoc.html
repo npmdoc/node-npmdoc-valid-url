@@ -49,6 +49,8 @@
 <h1>api documentation for
     <a
 
+        href="https://github.com/ogt/valid-url#readme"
+
     >valid-url (v1.0.9)</a>
 </h1>
 <h4>URI validation functions</h4>
@@ -295,21 +297,22 @@
     return out;
 }</pre></li>
     <li>example usage<pre class="apidocCodePre">...
-
-## Synopsis
-
-Common url validation methods
-```
-    var validUrl = require(&#x27;valid-url&#x27;);
-
-    if (validUrl.<span class="apidocCodeKeywordSpan">isUri</span>(suspect)){
-        console.log(&#x27;Looks like an URI&#x27;);
-    } else {
-        console.log(&#x27;Not a URI&#x27;);
-    }
-```
-
-Replicates the functionality of Richard Sonnen &#x3c;sonnen@richardsonnen.com&#x3e; perl module :
+  {
+    &#x22;name&#x22;: &#x22;sagens&#x22;,
+    &#x22;email&#x22;: &#x22;zholudev.s@gmail.com&#x22;
+  }
+],
+&#x22;name&#x22;: &#x22;valid-url&#x22;,
+&#x22;optionalDependencies&#x22;: {},
+&#x22;readme&#x22;: &#x22;URI validation functions\n==\n[![Build Status](https://travis-ci.org/ogt/valid-url.png)](https://travis
+-ci.org/ogt/valid-url)\n\n## Synopsis\n\nCommon url validation methods \n```\n    var validUrl = require(&#x27;valid-url&#x27;);\n  \n    if (validUrl.<span class="apidocCodeKeywordSpan">isUri</span>(suspect)){\n        console.log(&#x27;Looks like an URI&#x27;);\n    } else {\n        console.log(&#x27;Not a URI&#x27;);\n    }\n```\n\nReplicates the functionality of Richard Sonnen &#x3c;sonnen@richardsonnen.com&#x3e; perl module :\nhttp://search.cpan.org/~sonnen/Data-Validate-URI-0.01/lib/Data/Validate/URI.pm [full code here](http://anonscm.debian.org/gitweb/?p=users/dom/libdata-validate-uri-perl.git)\ninto a nodejs module. Translated practically line by line from perl. \nIt passes all the original tests.\n\n## Description\n\n(copied from original perl module)\n\n&#x3e; This module collects common URI validation routines to make input validation, and untainting easier and more readable.\n&#x3e; All functions return an untainted value if the test passes, and undef if it fails. This means that you should always check for a defined status explicitly. Don&#x27;t assume the return will be true.\n&#x3e; The value to test is always the first (and often only) argument.\n&#x3e; There are a number of other URI validation modules out there as well (see below.) This one focuses on being fast, lightweight, and relatively &#x27;real-world&#x27;. i.e. it&#x27;s good if you want to check user input, and don&#x27;t need to parse out the URI/URL into chunks.\n&#x3e; Right now the module focuses on HTTP URIs, since they&#x27;re arguably the most common. If you have a specialized scheme you&#x27;d like to have supported, let me know.\n\n## Installation \n\n```\n    npm install valid-url\n```\n\n## Methods\n```javascript\n/*\n * @Function isUri(value)\n *\n * @Synopsis  is the value a well-formed uri?\n * @Description  \n        Returns the untainted URI if the test value appears to be well-formed.  Note that\n        you may really want one of the more practical methods like is_http_uri or is_https_uri,\n        since the URI standard (RFC 3986) allows a lot of things you probably don&#x27;t want.\n * @Arguments \n *   value  The potential URI to test.\n *\n * @Returns The untainted RFC 3986 URI on success, undefined on failure.\n * @Notes \n        This function does not make any attempt to check whether the URI is accessible\n        or &#x27;makes sense&#x27; in any meaningful way.  It just checks that it is formatted\n        correctly.\n *\n */\n\n\n/*\n * @Function isHttpUri(value)\n * @Synopsis   is the value a well-formed HTTP uri?\n * @Description  \n        Specialized version of isUri() that only likes http:// urls.  As a result, it can\n        also do a much more thorough job validating.  Also, unlike isUri() it is more\n        concerned with only allowing real-world URIs through.  Things like relative\n        hostnames are allowed by the standards, but probably aren&#x27;t wise.  Conversely,\n        null paths aren&#x27;t allowed per RFC 2616 (should be &#x27;/&#x27; instead), but are allowed\n        by this function.\n        \n        This function only works for fully-qualified URIs.  /bob.html won&#x27;t work.  \n        See RFC 3986 for the appropriate method to turn a relative URI into an absolute \n        one given its context.\n        \n        Returns the untainted URI if the test value appears to be well-formed.\n        \n        Note that you probably want to either call this in combo with is_https_uri(). i.e.\n        \n        if(isHttpUri(uri) || isHttpsUri(uri)) console.log(&#x27;Good&#x27;);\n        \n        or use the convenience method isWebUri which is equivalent.\n\n * @Arguments \n *   value  The potential URI to test.\n *\n * @Returns The untainted RFC 3986 URI on success, undefined on failure.\n * @Notes \n        This function does not make any attempt to check whether the URI is accessible\n        or &#x27;makes sense&#x27; in any meaningful way.  It just checks that it is formatted\n        correctly.\n */\n \n\n\n/*\n * @Function isHttpsUri(value)\n * @Synopsis   is the value a well-formed HTTPS uri?\n * @Description  \n        See is_http_uri() for details.  This version only likes the https URI scheme.\n        Otherwise it&#x27;s identical to is_http_uri()\n * @Arguments \n *   value  The potential URI to test.\n *\n * @Returns The untainted RFC 3986 URI on success, undefined on failure.\n * @Notes \n        This function does not make any attempt to check whether the URI is accessible\n        or &#x27;makes sense&#x27; in any meaningful way.  It just checks that it is formatted\n        correctly.\n */\n \n \n /*\n * @Function isWebUri(value)\n * @Synopsis   is the value a well-formed HTTP or HTTPS uri?\n * @Description  \n        This is just a convenience method that combines isHttpUri and isHttpsUri\n        to accept most common real-world URLs.\n * @Arguments \n *   value  The potential URI to test.\n *\n * @Returns The untainted RFC 3986 URI on success, undefined on failure.\n * @Notes \n        This function does not make any attempt to check whether the URI is accessible\n        or &#x27;makes sense&#x27; in any meaningful way.  It just checks that it is formatted\n        correctly.\n */\n \n```\n\n## See also \n\nRFC 3986, RFC 3966, RFC 4694, RFC 4759, RFC 4904\n\n&#x22;,
+&#x22;readmeFilename&#x22;: &#x22;README.md&#x22;,
+&#x22;repository&#x22;: {
+  &#x22;url&#x22;: &#x22;git://github.com/ogt/valid-url.git&#x22;
+},
+&#x22;scripts&#x22;: {
+  &#x22;test&#x22;: &#x22;make test&#x22;
+},
 ...</pre></li>
     </ul>
 
